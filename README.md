@@ -1,108 +1,154 @@
-# BRCA1 sequence conservation
+# BRCA1 conservation — an easy classroom demo
 
-Working ICS 691G checkpoint prototype. Implements Smith–Waterman local DNA alignment from scratch with a linear gap penalty and traceback. Includes actual NCBI coding sequences, a hand-checkable toy example, measured benchmarks, preliminary figures, and a report.
+**How similar is the same gene across different species?** This program compares human BRCA1 DNA with chimpanzee, cat, and mouse DNA. Smith–Waterman finds a matching region and calculates a similarity score. The local browser demo explains each result as you go.
 
-## Run on macOS or Linux
+![Rendered classroom demo start preview](docs/screenshots/01-start.png)
 
-Install Python 3.10 or newer, then open Terminal in this project folder.
+## Start on your own computer
+
+You need **Python 3.10 or newer**, an internet connection for the first dependency installation, and a browser. The DNA sequences are already included. The instructions below support **macOS, Linux, and Windows through WSL/Ubuntu**. The command-line benchmarking code uses the Unix `resource` module.
+
+### 1. Download the project
+
+On this GitHub page, click the green **Code** button, choose **Download ZIP**, and extract it. Open the extracted folder. It should contain `classroom_demo.py`, `requirements.txt`, `web`, and `data`.
+
+![GitHub Code menu showing Download ZIP](docs/screenshots/00-download-zip.jpg)
+
+Open Terminal. Type `cd ` with a space after it, drag the extracted project folder into Terminal, and press Enter on a Mac. On Linux or WSL, use `cd` followed by the actual extracted folder path. Keep Terminal in that folder for the steps below.
+
+If you already use Git, you can download it this way instead. Use this block once, from the folder where you want to keep the project.
 
 ```bash
+git clone https://github.com/Jafaga/brca1-conservation.git
+cd brca1-conservation
+```
+
+If you cloned this repository earlier, open that existing folder and run `git pull` to get the classroom demo. Keep any personal code changes committed before pulling.
+
+### 2. Set up Python once
+
+Copy these commands into Terminal, one line at a time.
+
+```bash
+python3 --version
 python3 -m venv .venv
 source .venv/bin/activate
-python3 -m pip install -r requirements.txt
-python3 -m unittest discover -s tests -v
-python3 demo.py
+python -m pip install -r requirements.txt
 ```
 
-Open `results/report.html` in a browser. On a Mac, run `open results/report.html`.
-The selected real data are included, so the demo runs without downloading data.
+The version should be 3.10 or newer. After activation, Terminal usually shows `(.venv)` at the start of the prompt. Wait for installation to finish before continuing. Python installers are available at [python.org](https://www.python.org/downloads/).
 
-## A short live demonstration
-
-1. Show `data/manifest.json`, which identifies each species, accession, full CDS length, chromosome and sequence checksum.
-2. Run the toy example below. It should produce score 8 and local alignment ACGT/ACGT at coordinates [2,6) in both inputs.
-3. Run `python3 demo.py`. Each line is a new real alignment calculation.
-4. Open `results/report.html` and explain score, identity and coverage using the figures.
-5. Open `alignment.py` and point to the recurrence, maximum-cell tracking and traceback.
+### 3. Start the demo
 
 ```bash
-python3 demo.py --query TTACGTAA --target GGACGTCC
+python classroom_demo.py
 ```
 
-## Research question and professor feedback
+Your browser should open automatically. If it does not, open **http://127.0.0.1:8000** in your browser. Terminal should print the following address.
 
-Does human BRCA1 have greater sequence similarity to a closely related mammalian ortholog than to more distant mammalian orthologs under fixed alignment scoring?
+```text
+BRCA1 classroom demo
+Open http://127.0.0.1:8000
+Keep this Terminal window open. Press Ctrl+C to stop.
+```
 
-The broader hypothesis predicts higher similarity for more closely related species. This checkpoint tests the computational workflow with one gene and three comparison species. Conservation is quantified using alignment score, identity and coverage. Transcript variants are not treated as independent species. The pilot includes both a manually checkable toy case and public sequence data with exact accessions and lengths. These choices address the feedback recovered from the prior project discussion.
+Keep Terminal open while presenting. Stop the server by pressing **Ctrl+C** in Terminal when you finish.
 
-## Selected real data
+### Next time you present
 
-| Species | NCBI Gene | RefSeq transcript | CDS bases |
-|---|---|---|---|
-| Human, Homo sapiens | 672 | NM_007294.4 | 5592 |
-| Chimpanzee, Pan troglodytes | 449497 | NM_001045493.1 | 5592 |
-| Mouse, Mus musculus | 12189 | NM_009764.3 | 5439 |
-| Cat, Felis catus | 101081937 | XM_019817933.3 | 5622 |
-
-Cat is a predicted XM_ transcript. It was included as an additional mammalian comparison. Zebrafish was not found in the queried human BRCA1 ortholog set. The pilot therefore uses the four named mammalian genes above. Reassess transcript selection before the broader biological analysis.
-
-The bundled manifest records the actual retrieval timestamp, source URL and SHA256 checksums. Sequences were downloaded afresh for this prototype. The earlier 562-gene download remains on your Mac. This new package contains four genes and is not a copy of that local ZIP.
-
-Refresh from NCBI, or use your own downloaded ortholog ZIP.
+Open Terminal in the project folder, then run these two lines. You can reuse the environment and installed packages.
 
 ```bash
-python3 prepare_data.py
-python3 prepare_data.py --package /path/to/brca1_orthologs.zip
+source .venv/bin/activate
+python classroom_demo.py
 ```
 
-Refreshing can change accession versions. Check `data/manifest.json` after refresh. The included snapshots and their checksums preserve this run.
+## What to click and what to say
 
-## Pilot design
+### First, click “Try a small example”
 
-Default input is three consecutive, non-overlapping 600-base windows (CDS coordinates 0–600, 600–1200, 1200–1800) per sequence. Human is the query for each comparison. There are nine real comparisons and nine shuffled controls, using seed 691. Each shuffled target preserves its window's nucleotide composition.
+The two toy sequences are `TTACGTAA` and `GGACGTCC`. The matching piece is `ACGT`.
+
+> “I’ll start with two short examples so we can check the result ourselves. Both contain ACGT. There are four matching letters, and each match earns two points, so the score is eight.”
+
+The screen also explains **100% identity** and **50% coverage**. All four letters in the alignment match. That alignment covers four of the eight letters in each original input.
+
+![Rendered small-example preview using Python results](docs/screenshots/02-small-example.png)
+
+### Then, click “Run the real DNA demo”
+
+Wait for **Run complete**. Python reads the bundled NCBI data and recalculates all 18 comparisons. It uses three non-overlapping 600-base pieces from each coding sequence. Nine comparisons use real DNA and nine use shuffled controls.
+
+> “Now I’m using actual BRCA1 DNA from NCBI. I compare human DNA with the same gene in chimpanzee, cat, and mouse. This small run uses three pieces from each sequence.”
+
+Point to the three species rows. The row values average the three real comparisons for that species.
+
+![Rendered real-data preview using captured measurements](docs/screenshots/03-real-results.png)
+
+| Screen label | Plain-language meaning | What to point out |
+|---|---|---|
+| Alignment score | Matches earn points. Mismatches and gaps cost points. | Chimpanzee has the highest score in these selected pieces. |
+| Matching letters | Percent identity within the local alignment, including gap columns in the denominator. | Chimpanzee is about 99.2%, cat about 88.3%, mouse about 78.5%. |
+| Human piece covered | Fraction of the human input piece used by the alignment. | Check coverage alongside identity. |
+| Alignment runtime | Time spent calculating the alignments in a fresh Python process. | This is measured again on the computer running the demo. |
+| Peak Python process memory | Maximum resident memory of the benchmark process, measured before plotting imports. | Memory includes Python and the alignment data structures. |
+
+> “Chimpanzee has the highest similarity to human in these pieces. That matches the direction of my hypothesis. This is still a small pilot using one gene, and I need more sequences before making broader conclusions.”
+
+### Open the optional details if your audience asks
+
+- **Scientific figure and shuffled controls** shows the original score, identity, and coverage plots. Shuffled DNA keeps the same letters in a different order.
+- **Exact sequences used** shows the species, transcript accession, and complete coding-sequence length.
+- **One real alignment** shows actual aligned letters with matching columns marked by `|`.
+
+![Scientific figure from the measured run](docs/screenshots/04-scientific-figure.png)
+
+The GitHub download image is a browser screenshot. The three classroom images are rendered interface previews populated with results from a successful Python run. The scientific figure is the actual plot from that run. The local demo calls Python for fresh calculations. Runtime and memory vary across computers and runs.
+
+## A three-minute presentation
+
+| Time | Action | Main point |
+|---|---|---|
+| 0:00–0:30 | Show the page title. | “I’m studying how conserved BRCA1 is across species.” |
+| 0:30–1:10 | Run the small example. | Explain ACGT, four matches, and a score of eight. |
+| 1:10–2:10 | Run the real DNA demo. | Explain the species table and compare similarity. |
+| 2:10–2:40 | Point to runtime and memory. | Show that the prototype calculates and measures actual work. |
+| 2:40–3:00 | State the next step. | “Next I’ll use full sequences, more orthologs, and HPC.” |
+
+Practice once before class so packages are installed. The local DNA run needs no additional downloads. For a saved-results fallback, open `results/report.html` directly. It contains the previously measured checkpoint run and its figures.
+
+## Troubleshooting
+
+| What you see | What to do |
+|---|---|
+| `python3: command not found` | Install Python 3.10 or newer, reopen Terminal, then check `python3 --version`. |
+| `No such file` or `can't open file` | Run `pwd` and `ls`. Move into the extracted project folder where `classroom_demo.py` is listed. |
+| `ModuleNotFoundError` | Activate `.venv` and run `python -m pip install -r requirements.txt`. Restart the demo. |
+| Browser did not open | Copy the printed local address into your browser. Keep Terminal running. |
+| `Address already in use` | Run `python classroom_demo.py --port 8001`, then open the printed address using port 8001. |
+| Browser says it cannot connect | Restart `python classroom_demo.py` in the activated environment and use its exact printed address. |
+| Windows reports `No module named resource` | Run the project inside WSL/Ubuntu. Native Windows benchmarking is currently unsupported. |
+| Results take a while | Wait for “Run complete.” Terminal shows the requests and any Python errors. |
+
+## For classmates or the professor reviewing the code
+
+| File | Purpose |
+|---|---|
+| `alignment.py` | Smith–Waterman recurrence and traceback implemented from scratch. |
+| `classroom_demo.py` | Local server. Connects the buttons to Python calculations. |
+| `web/` | Classroom interface and explanations. |
+| `demo.py` | Reproducible command-line pilot with measured runtime and memory. |
+| `data/manifest.json` | Exact NCBI accessions, lengths, retrieval details, and checksums. |
+| `tests/test_alignment.py` | Toy checks and independent Biopython score validation. |
+| `results/` | Previously measured checkpoint outputs, alignments, and figures. |
+| `checkpoint.pdf` | Checkpoint write-up. |
+| [Methods and reproducibility](docs/METHODS.md) | Detailed sampling, algorithm, metrics, limitations, and scaling discussion. |
+
+Run validation or recreate the saved report from Terminal.
 
 ```bash
-python3 demo.py --window 300 --windows 3 --output results_300
+python -m unittest discover -s tests -v
+python demo.py
 ```
 
-Windows at matching offsets are not guaranteed to represent precisely homologous regions after insertions or deletions. Full-length comparisons and broader ortholog sampling are next steps. Windows within one BRCA1 sequence are not independent biological replicates. One shuffle per window is a diagnostic control and cannot establish a p-value. This pilot does not estimate a phylogeny or evolutionary distance.
-
-## Algorithm and metrics
-
-For query position i and target position j,
-
-`H[i,j] = max(0, H[i-1,j-1] + substitution, H[i-1,j] - 2, H[i,j-1] - 2)`
-
-Match +2, mismatch -1, linear gap -2 per base. N always receives mismatch. First row and column are zero. Traceback starts at the first maximum-scoring cell and ends at a zero cell. Ties resolve diagonal, then up, then left.
-
-- Identity = matching unambiguous bases / all alignment columns, including gaps.
-- Query/target coverage = bases consumed / respective input window length.
-- Normalized score = raw score / (2 × shorter input length).
-- Coordinates are zero-based and half-open, relative to each window. Add `cds_start_0based` to obtain CDS-relative coordinates.
-
-Time and space are O(mn). Scores use an int array and traceback uses one byte per cell. On this machine the DP buffers occupy 5(m+1)(n+1) bytes. The program caps a pair at 50 million cells to keep this traceback prototype practical. Biopython is used only for independent validation.
-
-## Measured outputs
-
-`results/alignments.csv` contains every observation and runtime. `alignments.json` also includes alignment strings. `benchmark.json` describes input volume, cell updates, scoring, hardware/OS context, runtime and memory measurement scope. `conservation.png` and `benchmark.png` have corresponding PDF versions.
-
-Runtime uses `time.perf_counter`. Memory uses the whole-process peak resident set size via `resource.ru_maxrss`, normalized to MiB on macOS/Linux. That is a high-water mark across the process, not a fresh allocation measurement for each pair. Benchmark metadata is captured before plotting imports. Network download and plotting time are excluded. Your Mac and HPC timings will differ.
-
-## Scaling toward the final project
-
-The checkpoint computes 18 pairs at 600 × 600 bases each. For one million pairs at the same lengths, multiply the measured mean seconds per pair by one million for a rough serial estimate. With p workers, divide that estimate by p only as an ideal lower bound. Scheduling, serialization, I/O and load imbalance add cost.
-
-The per-pair DP buffers scale quadratically with sequence length. Doubling both lengths requires four times as many cells. Whole-process memory includes interpreter overhead, and each worker has its own buffers. Full CDS pairs of roughly 5,600 bases require about 150 MiB in DP buffers per active worker. Benchmark those before submitting large jobs.
-
-A million comparisons is still a planned computational workload. The present results contain 18 measured comparisons. A scientifically meaningful expansion requires more orthologous genes and a defined sampling plan. Arbitrary all-against-all windows from a single gene do not provide a million independent biological observations.
-
-## References
-
-- NCBI gene ortholog packages: https://www.ncbi.nlm.nih.gov/datasets/docs/v2/how-tos/genes/download-ortholog-data-package/
-- NCBI gene data packages: https://www.ncbi.nlm.nih.gov/datasets/docs/v2/how-tos/genes/download-gene-data-package/
-- Exact API download URL and sequence identifiers: `data/manifest.json`.
-- Smith TF, Waterman MS. Identification of common molecular subsequences. J Mol Biol. 1981;147:195–197. https://doi.org/10.1016/0022-2836(81)90087-5
-
-## Checkpoint submission
-
-The public code repository is https://github.com/Jafaga/brca1-conservation. Review `checkpoint.pdf` before submitting. The assignment allows either a public repository or a private repository shared with GitHub user `lpipes`. Review the reflection so it accurately represents your own experience. Submission on Lamaku is a separate user action.
+`python demo.py` replaces the files in `results/` with a newly measured run. The browser's **Run the real DNA demo** action uses a temporary output directory and keeps the bundled checkpoint outputs intact.
