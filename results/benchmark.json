@@ -1,0 +1,28 @@
+{
+  "platform": "Linux-6.18.57-x86_64-with-glibc2.41",
+  "python": "3.12.14",
+  "scoring": {
+    "match": 2,
+    "mismatch": -1,
+    "gap": -2,
+    "ambiguous_N": "mismatch"
+  },
+  "window_length": 600,
+  "windows_per_species": 3,
+  "comparisons": 18,
+  "real_comparisons": 9,
+  "selected_sequences": 4,
+  "selected_cds_bases": 22245,
+  "unique_real_input_bases": 7200,
+  "pairwise_input_bases": 21600,
+  "dp_cells_total": 6480000,
+  "alignment_runtime_seconds": 2.8847015559997544,
+  "pipeline_runtime_seconds": 2.8954554800000096,
+  "peak_process_rss_mib": 12.34765625,
+  "memory_method": "resource.ru_maxrss, whole-process high-water mark; measured before importing plotting libraries",
+  "max_dp_buffer_bytes": 1806005,
+  "scope": "Three position-matched, non-overlapping CDS windows per species; preliminary within-gene windows are not biological replicates.",
+  "download_included": false,
+  "plotting_included": false,
+  "random_seed": 691
+}
