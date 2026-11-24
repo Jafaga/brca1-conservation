@@ -4,7 +4,7 @@ from pathlib import Path
 import statistics
 
 
-def create_figures(output, rows, benchmark, manifest):
+def create_figures(output, rows, benchmark, manifest, *, html_report=False):
     gene = manifest.get('gene', 'BRCA1')
     import matplotlib
     matplotlib.use('Agg')
@@ -52,10 +52,12 @@ def create_figures(output, rows, benchmark, manifest):
         records = [r for r in real if r['species'] == name]
         summary.append(f"<tr><td>{html.escape(name)}</td><td>{statistics.mean(r['score'] for r in records):.1f}</td><td>{statistics.mean(r['percent_identity'] for r in records):.1f}%</td><td>{statistics.mean(r['query_coverage'] for r in records):.1f}%</td></tr>")
     inventory = ''.join(f"<tr><td>{s['species']}</td><td>{s['accession']}</td><td>{s['gene_id']}</td><td>{s['cds_length']:,}</td></tr>" for s in manifest['sequences'])
-    (output / 'report.html').write_text(f'''<!doctype html><html lang="en"><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1"><title>BRCA1 conservation pilot</title>
+    if not html_report:
+        return
+    (output / 'report.html').write_text(f'''<!doctype html><html lang="en"><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1"><title>{gene} conservation pilot</title>
 <style>body{{font:17px/1.6 system-ui;max-width:1100px;margin:50px auto;padding:0 24px;color:#272333;background:#faf9fc}}h1{{font-size:42px;line-height:1.1}}h2{{margin-top:38px}}table{{border-collapse:collapse;width:100%;background:white}}td,th{{padding:12px;text-align:left;border-bottom:1px solid #ddd}}img{{max-width:100%;background:white}}a{{color:#6542b5}}.meta{{color:#61596c}}code{{background:#ece7f5;padding:3px}}</style>
-<p class="meta">ICS 691G · Working computational prototype</p><h1>How conserved is BRCA1 across species?</h1>
-<p>Hypothesis for the broader study: more closely related species will tend to have higher BRCA1 sequence similarity to human under fixed alignment scoring. This pilot compares three mammalian orthologs using Smith–Waterman implemented from scratch.</p>
+<p class="meta">ICS 691G · Working computational prototype</p><h1>How conserved is {gene} across species?</h1>
+<p>Hypothesis for the broader study: more closely related species will tend to have higher {gene} sequence similarity to human under fixed alignment scoring. This pilot compares three mammalian orthologs using Smith–Waterman implemented from scratch.</p>
 <h2>Real sequence input</h2><table><tr><th>Species</th><th>RefSeq transcript</th><th>NCBI Gene</th><th>Full CDS bases</th></tr>{inventory}</table>
 <p>The pilot uses the first {benchmark['windows_per_species']} non-overlapping {benchmark['window_length']}-base windows from each CDS. Same-offset windows can miss homologous regions shifted by insertions or deletions. Broader biological conclusions need full-length alignment and more orthologs.</p>
 <h2>Preliminary sequence results</h2><img src="conservation.png" alt="Measured BRCA1 alignment similarity, identity and coverage">

@@ -75,7 +75,7 @@ class DemoHandler(BaseHTTPRequestHandler):
             # Each fresh process preserves the benchmark's memory measurement scope.
             with tempfile.TemporaryDirectory(prefix='brca1-classroom-') as folder:
                 completed = subprocess.run(
-                    [sys.executable, str(ROOT / 'demo.py'), '--output', folder, '--data-dir', str(DATASETS[gene]), '--window', str(window)],
+                    [sys.executable, str(ROOT / 'demo.py'), '--output', folder, '--data-dir', str(DATASETS[gene]), '--window', str(window), '--html-report'],
                     cwd=ROOT, capture_output=True, text=True, timeout=180)
                 if completed.returncode:
                     self.send_json({'error': 'The real-data run failed. In your activated environment, run python -m pip install -r requirements.txt, then restart the demo. Details are in Terminal.'}, 500)
