@@ -1,0 +1,60 @@
+{
+  "gene": "BRCA2",
+  "fasta_file": "selected_cds.fna",
+  "source_url": "https://api.ncbi.nlm.nih.gov/datasets/v2/gene/id/675,452526,12190,493878/download?include_annotation_type=FASTA_CDS",
+  "source_package_name": null,
+  "retrieved_utc": "2026-11-24T05:10:35.831525+00:00",
+  "package_sha256": "476bd075cccd60fdb3903bcef11783832d603868050b7cabe70f67b401ea0351",
+  "source_gene_records": 4,
+  "source_cds_records": 23,
+  "sequences": [
+    {
+      "species": "Homo sapiens",
+      "accession": "NM_000059.4",
+      "gene_id": "675",
+      "cds_length": 10257,
+      "header": "NM_000059.4:200-10456 BRCA2 [organism=Homo sapiens] [GeneID=675] [transcript=1] [region=cds]",
+      "chromosomes": [
+        "13"
+      ],
+      "sha256": "6a4585fe48cb975fe30eac1e509a8868df3e04d7fd0f7cbc8c01debe1e136d94",
+      "selection": "Human NM_007294.4 when present; otherwise prefer NM_, longest CDS, lexical header tie-break."
+    },
+    {
+      "species": "Pan troglodytes",
+      "accession": "XM_016925134.4",
+      "gene_id": "452526",
+      "cds_length": 10257,
+      "header": "XM_016925134.4:276-10532 BRCA2 [organism=Pan troglodytes] [GeneID=452526] [transcript=X1] [region=cds]",
+      "chromosomes": [
+        "14"
+      ],
+      "sha256": "3f8f81f68b4e1211812a304c625cb2f9c1f658ac4661d853f6488d1f7c2e274b",
+      "selection": "Human NM_007294.4 when present; otherwise prefer NM_, longest CDS, lexical header tie-break."
+    },
+    {
+      "species": "Mus musculus",
+      "accession": "NM_001081001.2",
+      "gene_id": "12190",
+      "cds_length": 9990,
+      "header": "NM_001081001.2:509-10498 Brca2 [organism=Mus musculus] [GeneID=12190] [transcript=1] [region=cds]",
+      "chromosomes": [
+        "5"
+      ],
+      "sha256": "16a8fce0d247f610dfea144fa9c107bbea2d2c0ffe7ab584747b3d90b5973078",
+      "selection": "Human NM_007294.4 when present; otherwise prefer NM_, longest CDS, lexical header tie-break."
+    },
+    {
+      "species": "Felis catus",
+      "accession": "NM_001009858.1",
+      "gene_id": "493878",
+      "cds_length": 10119,
+      "header": "NM_001009858.1:1-10119 BRCA2 [organism=Felis catus] [GeneID=493878] [region=cds]",
+      "chromosomes": [
+        "A1"
+      ],
+      "sha256": "240cabce61948f6e6a0b86857c019ebf7ad3dfc35d1a1aeb6952abfad24209cb",
+      "selection": "Human NM_007294.4 when present; otherwise prefer NM_, longest CDS, lexical header tie-break."
+    }
+  ]
+}

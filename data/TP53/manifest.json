@@ -1,0 +1,60 @@
+{
+  "gene": "TP53",
+  "fasta_file": "selected_cds.fna",
+  "source_url": "https://api.ncbi.nlm.nih.gov/datasets/v2/gene/id/7157,455214,22059,493847/download?include_annotation_type=FASTA_CDS",
+  "source_package_name": null,
+  "retrieved_utc": "2026-11-24T05:10:24.251952+00:00",
+  "package_sha256": "35a23e1022e2ecf0641f43b5c68d1a44eed776648e21f644b4f769c55a3af663",
+  "source_gene_records": 4,
+  "source_cds_records": 33,
+  "sequences": [
+    {
+      "species": "Homo sapiens",
+      "accession": "NM_000546.6",
+      "gene_id": "7157",
+      "cds_length": 1182,
+      "header": "NM_000546.6:143-1324 TP53 [organism=Homo sapiens] [GeneID=7157] [transcript=1] [region=cds]",
+      "chromosomes": [
+        "17"
+      ],
+      "sha256": "828a93ac94731fa87ba0d1f085879938f5425efd2b030f8476575dfb0d914f79",
+      "selection": "Human NM_007294.4 when present; otherwise prefer NM_, longest CDS, lexical header tie-break."
+    },
+    {
+      "species": "Pan troglodytes",
+      "accession": "XM_016931470.3",
+      "gene_id": "455214",
+      "cds_length": 1236,
+      "header": "XM_016931470.3:208-1443 TP53 [organism=Pan troglodytes] [GeneID=455214] [transcript=X1] [region=cds]",
+      "chromosomes": [
+        "19"
+      ],
+      "sha256": "5e899d81f7a42390b2d3a59e44716b6094f7e57a7fd8f2a094d7150cd159dd5e",
+      "selection": "Human NM_007294.4 when present; otherwise prefer NM_, longest CDS, lexical header tie-break."
+    },
+    {
+      "species": "Mus musculus",
+      "accession": "NM_011640.4",
+      "gene_id": "22059",
+      "cds_length": 1173,
+      "header": "NM_011640.4:114-1286 Trp53 [organism=Mus musculus] [GeneID=22059] [region=cds]",
+      "chromosomes": [
+        "11"
+      ],
+      "sha256": "0a3e01bce7620557cfeeac199127b1d31ad269101eaf823903c9b9e6fea62bf0",
+      "selection": "Human NM_007294.4 when present; otherwise prefer NM_, longest CDS, lexical header tie-break."
+    },
+    {
+      "species": "Felis catus",
+      "accession": "NM_001009294.1",
+      "gene_id": "493847",
+      "cds_length": 1161,
+      "header": "NM_001009294.1:127-1287 TP53 [organism=Felis catus] [GeneID=493847] [region=cds]",
+      "chromosomes": [
+        "E1"
+      ],
+      "sha256": "1005e30cc7ed22ad0a35d7a35453a5ed162d1733e9e05625fdd2744fdd8017d9",
+      "selection": "Human NM_007294.4 when present; otherwise prefer NM_, longest CDS, lexical header tie-break."
+    }
+  ]
+}

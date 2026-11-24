@@ -1,3 +1,5 @@
 .venv/
 __pycache__/
 .DS_Store
+data/**/source_package.zip
+data/source_package.zip

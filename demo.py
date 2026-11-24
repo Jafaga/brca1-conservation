@@ -20,6 +20,7 @@ def peak_rss_mib():
 
 def main():
     parser = argparse.ArgumentParser(description=__doc__)
+    parser.add_argument('--data-dir', type=Path, default=ROOT / 'data')
     parser.add_argument('--window', type=int, default=600)
     parser.add_argument('--windows', type=int, default=3)
     parser.add_argument('--output', type=Path, default=ROOT / 'results')
@@ -34,8 +35,8 @@ def main():
     if args.window < 1 or args.windows < 1:
         parser.error('Window size and count must be positive')
     args.output.mkdir(parents=True, exist_ok=True)
-    records = read_fasta(ROOT / 'data/brca1_selected.fna')
-    manifest = json.loads((ROOT / 'data/manifest.json').read_text())
+    manifest = json.loads((args.data_dir / 'manifest.json').read_text())
+    records = read_fasta(args.data_dir / manifest.get('fasta_file', 'brca1_selected.fna'))
     metadata = manifest['sequences']
     required = args.window * args.windows
     if required > min(len(sequence) for _, sequence in records):
@@ -77,7 +78,7 @@ def main():
         peak_process_rss_mib=peak_rss_mib(),
         memory_method='resource.ru_maxrss, whole-process high-water mark; measured before importing plotting libraries',
         max_dp_buffer_bytes=max(r['dp_buffer_bytes'] for r in rows),
-        scope='Three position-matched, non-overlapping CDS windows per species; preliminary within-gene windows are not biological replicates.',
+        scope=f'{args.windows} position-matched, non-overlapping CDS windows per species; within-gene windows are not biological replicates.',
         download_included=False, plotting_included=False, random_seed=691)
     with (args.output / 'alignments.csv').open('w', newline='') as handle:
         writer = csv.DictWriter(handle, fieldnames=rows[0].keys())
@@ -87,6 +88,8 @@ def main():
     (args.output / 'benchmark.json').write_text(json.dumps(benchmark, indent=2) + '\n')
     from figures import create_figures
     create_figures(args.output, rows, benchmark, manifest)
+    report = args.output / 'report.html'
+    report.write_text(report.read_text().replace('BRCA1', manifest.get('gene', 'BRCA1')))
     print(f"\nResults written to {args.output}\nOpen {args.output / 'report.html'} in your browser.")
 
 

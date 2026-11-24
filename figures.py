@@ -5,6 +5,7 @@ import statistics
 
 
 def create_figures(output, rows, benchmark, manifest):
+    gene = manifest.get('gene', 'BRCA1')
     import matplotlib
     matplotlib.use('Agg')
     import matplotlib.pyplot as plt
@@ -27,7 +28,7 @@ def create_figures(output, rows, benchmark, manifest):
         axis.set_ylabel(label)
         axis.grid(axis='y', alpha=.15)
     axes[0].legend(frameon=False)
-    fig.suptitle('BRCA1 pilot: human CDS windows against three mammalian orthologs')
+    fig.suptitle(f'{gene} pilot: human CDS windows against three mammalian orthologs')
     fig.text(.5, .015, 'Each dot is one window. Bars mark means. Windows from one gene are not biological replicates.', ha='center', fontsize=9)
     fig.tight_layout(rect=(0,.05,1,.94))
     fig.savefig(output / 'conservation.png', dpi=190)
