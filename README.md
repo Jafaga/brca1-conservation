@@ -95,3 +95,7 @@ Each row averages the three real windows for one comparison to human and include
 | `input/source_package.zip` | A copy of the official ZIP used for the run |
 
 Add `--plots` to a run to save PNG and PDF figures. See [Methods and reproducibility](docs/METHODS.md) for the scoring recurrence, transcript selection, and scaling discussion. The original BRCA1 [conservation figure](results/conservation.png) and [benchmark measurements](results/benchmark.json) are included.
+
+## AI assistance
+
+I used AI tools, including ChatGPT, to help me plan the project, think through the approach, and format the project materials.
