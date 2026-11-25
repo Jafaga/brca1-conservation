@@ -94,4 +94,4 @@ Each row averages the three real windows for one comparison to human and include
 | `input/manifest.json` | Package name, accessions, lengths, and checksums for an imported ZIP |
 | `input/source_package.zip` | A copy of the official ZIP used for the run |
 
-Add `--plots` to a run to save PNG and PDF figures. The terminal workflow generates no HTML. See [Methods and reproducibility](docs/METHODS.md) for the scoring recurrence, transcript selection, and scaling discussion. The [checkpoint PDF](checkpoint.pdf) documents the original BRCA1 pilot.
+Add `--plots` to a run to save PNG and PDF figures. See [Methods and reproducibility](docs/METHODS.md) for the scoring recurrence, transcript selection, and scaling discussion. The original BRCA1 [conservation figure](results/conservation.png) and [benchmark measurements](results/benchmark.json) are included.

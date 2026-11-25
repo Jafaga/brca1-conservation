@@ -27,7 +27,6 @@ def main():
     parser.add_argument('--package', type=Path, help='Import an official NCBI Datasets ZIP before running.')
     parser.add_argument('--gene', choices=GENES, help='Gene in the official ZIP.')
     parser.add_argument('--plots', action='store_true', help='Also save PNG and PDF figures.')
-    parser.add_argument('--html-report', action='store_true', help=argparse.SUPPRESS)
     parser.add_argument('--window', type=int)
     parser.add_argument('--windows', type=int, default=3)
     parser.add_argument('--output', type=Path, default=ROOT / 'results')
@@ -128,9 +127,9 @@ def main():
     print(f"\n{benchmark['comparisons']} alignments | {benchmark['unique_real_input_bases']:,} real input bases"
           f" | {benchmark['alignment_runtime_seconds']:.3f} s alignment time"
           f" | {benchmark['peak_process_rss_mib']:.2f} MiB peak process memory")
-    if args.plots or args.html_report:
+    if args.plots:
         from figures import create_figures
-        create_figures(args.output, rows, benchmark, manifest, html_report=args.html_report)
+        create_figures(args.output, rows, benchmark, manifest)
     print(f"Results written to {args.output}")
 
 
