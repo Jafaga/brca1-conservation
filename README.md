@@ -6,7 +6,7 @@
 
 The program implements **Smith–Waterman local alignment from scratch**. It compares coding DNA sequences (CDS), traces back a highest-scoring matching region, and records alignment score, percent identity, alignment length, mismatches, gaps, coverage, runtime, and memory use.
 
-The terminal demo has three examples, **BRCA1, TP53, and BRCA2**. Each uses human, chimpanzee, mouse, and cat sequences from NCBI. The exact transcripts and lengths for each gene are in its manifest. BRCA1 remains the original checkpoint dataset. The additional genes allow the audience to inspect whether the similarity pattern changes with the gene.
+The terminal demo has three examples, **BRCA1, TP53, and BRCA2**. Each uses human, chimpanzee, mouse, and cat sequences from NCBI. The exact transcripts and lengths for each gene are in its manifest. BRCA1 remains the original checkpoint dataset. TP53 and BRCA2 show how the results vary by gene.
 
 ### Hypothesis and what the results tell us
 
@@ -15,6 +15,10 @@ Under fixed alignment scoring, a closely related species is expected to show hig
 Based on the proposal feedback, the analysis uses **specific orthologous genes with documented sequences and lengths**, a manually checkable toy example, and real public data. It measures scores, identity, and coverage. A count of local alignments would be misleading because Smith–Waterman can find local matches even between unrelated inputs.
 
 Interpret a high identity together with coverage and score. A short local match can have high identity while covering little of the input. These similarity measures are descriptive evidence of conservation. Estimating evolutionary distance would require a defined evolutionary model and further analysis.
+
+### Connection to distance-based phylogeny
+
+The project uses the first two steps from lecture. It starts with orthologous coding sequences and aligns them to identify matching positions. This pilot compares each species with human using local alignment. A phylogeny extension would align comparable homologous positions across all four species, calculate distances for all six species pairs under a consistent rule, and then use the distance matrix to build a tree. The current alignment scores, identity, and coverage describe the selected windows.
 
 ### Current scope
 
@@ -76,16 +80,9 @@ python demo.py --gene BRCA2 --package brca2_orthologs.zip --output runs/brca2
 
 If you need to rehearse offline, use the bundled NCBI snapshots. For example, run `python demo.py --data-dir data/TP53 --output runs/tp53-rehearsal`. BRCA1 is in `data` and BRCA2 is in `data/BRCA2`.
 
-### What to show your audience
+### Reading the output
 
-1. **Source and transcripts.** Point to the ZIP filename, transcript accessions, and full coding sequence lengths printed in Terminal. Each run selects one CDS per species.
-2. **Alignment summary.** Read the table as three comparisons to human. Each row averages three real windows and shows the mean shuffled score for comparison. Percent identity uses all alignment columns, including gaps. Human coverage measures how much of the human input window appears in the alignment.
-3. **Compare genes.** Run TP53 and BRCA2 and check whether the species ordering changes. Compare raw scores within runs of equal window length. For a common window length across runs, add the same `--window 300` to all three commands.
-4. **Computational cost.** Show the number of alignments, real input size, alignment time, and peak Python process memory. Runtime measures the alignment calls after import. Peak memory is the alignment process's high-water mark. The pilot uses fixed offsets and three windows per species, with a maximum window length of 600 bases.
-
-A short line for the live demo:
-
-> “I downloaded the coding DNA from NCBI. The program picks one transcript per species, then uses Smith–Waterman to find the best local match within each window. I look at the score, identity, and coverage together, and compare the real scores with shuffled controls.”
+Each row averages the three real windows for one comparison to human and includes the mean shuffled score for context. Percent identity uses all alignment columns, including gaps. Human coverage shows how much of the human input window appears in the alignment. For comparisons across genes at a common window length, add `--window 300` to each command.
 
 ### Saved outputs
 
